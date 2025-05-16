@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 const ViewMeasurements = () => {
   const [measurements, setMeasurements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +15,7 @@ const ViewMeasurements = () => {
   const fetchMeasurements = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/measurements', {
+      const res = await axios.get(`${BASE_URL}/api/measurements`, {
         params: { customerName, area },
       });
       setMeasurements(res.data);
@@ -38,7 +40,7 @@ const ViewMeasurements = () => {
     if (!window.confirm('Are you sure you want to delete this measurement?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/measurements/${id}`);
+      await axios.delete(`${BASE_URL}/api/measurements/${id}`);
       setMeasurements((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
       console.error('Error deleting measurement:', err);
@@ -58,7 +60,7 @@ const ViewMeasurements = () => {
 
   const handleEditSubmit = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/measurements/${id}`, editForm);
+      await axios.put(`${BASE_URL}/api/measurements/${id}`, editForm);
       fetchMeasurements();
       setEditingId(null);
     } catch (err) {

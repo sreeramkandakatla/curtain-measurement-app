@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 const UploadForm = () => {
   const [customerName, setCustomerName] = useState('');
   const [area, setArea] = useState('');
@@ -25,7 +27,7 @@ const UploadForm = () => {
     try {
       setIsUploading(true);
       setMessage('');
-      await axios.post('http://localhost:5000/api/upload', formData);
+      await axios.post(`${BASE_URL}/api/upload`, formData);
       setMessage('Upload successful!');
       setMessageType('success');
       setCustomerName('');
